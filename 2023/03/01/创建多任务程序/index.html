@@ -1,0 +1,461 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>FreeRtos多任务程序 | Kingの博客</title><meta name="keywords" content="freeRtos"><meta name="author" content="大连第一辅助,1656892276@qq.com"><meta name="copyright" content="大连第一辅助"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="9.2 任务创建与删除9.2.1 什么是任务在FreeRTOS中，任务就是一个函数，原型如下： 1void TaskFunction( void *pvParameters );  要注意的是：  这个函数不能返回 同一个函数，可以用来创建多个任务；换句话说，多个任务可以运行同一个函数 函数内部，尽量使用局部变量： 每个任务都有自己的栈 每个任务运行这个函数时 任务A的局部变量放在任务A的栈里、任">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FreeRtos多任务程序">
+<meta property="og:url" content="http://example.com/2023/03/01/%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%BB%BB%E5%8A%A1%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Kingの博客">
+<meta property="og:description" content="9.2 任务创建与删除9.2.1 什么是任务在FreeRTOS中，任务就是一个函数，原型如下： 1void TaskFunction( void *pvParameters );  要注意的是：  这个函数不能返回 同一个函数，可以用来创建多个任务；换句话说，多个任务可以运行同一个函数 函数内部，尽量使用局部变量： 每个任务都有自己的栈 每个任务运行这个函数时 任务A的局部变量放在任务A的栈里、任">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/space-2334655_1920.jpg">
+<meta property="article:published_time" content="2023-03-01T06:09:15.000Z">
+<meta property="article:modified_time" content="2024-03-20T14:32:55.314Z">
+<meta property="article:author" content="大连第一辅助">
+<meta property="article:tag" content="freeRtos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/space-2334655_1920.jpg"><link rel="shortcut icon" href="/./img/2a8c2a2267474c19b074a1cb92359e30(1).png"><link rel="canonical" href="http://example.com/2023/03/01/%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%BB%BB%E5%8A%A1%E7%A8%8B%E5%BA%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FreeRtos多任务程序',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-03-20 22:32:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/./img/space-2334655_1920.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kingの博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">FreeRtos多任务程序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-01T06:09:15.000Z" title="发表于 2023-03-01 14:09:15">2023-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-03-20T14:32:55.314Z" title="更新于 2024-03-20 22:32:55">2024-03-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="FreeRtos多任务程序"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="9-2-任务创建与删除"><a href="#9-2-任务创建与删除" class="headerlink" title="9.2 任务创建与删除"></a>9.2 任务创建与删除</h2><h3 id="9-2-1-什么是任务"><a href="#9-2-1-什么是任务" class="headerlink" title="9.2.1 什么是任务"></a>9.2.1 什么是任务</h3><p>在FreeRTOS中，任务就是一个函数，原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">TaskFunction</span><span class="params">( <span class="type">void</span> *pvParameters )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是：</p>
+<ul>
+<li>这个函数不能返回</li>
+<li>同一个函数，可以用来创建多个任务；换句话说，多个任务可以运行同一个函数</li>
+<li>函数内部，尽量使用局部变量：<ul>
+<li>每个任务都有自己的栈</li>
+<li>每个任务运行这个函数时<ul>
+<li>任务A的局部变量放在任务A的栈里、任务B的局部变量放在任务B的栈里</li>
+<li>不同任务的局部变量，有自己的副本</li>
+</ul>
+</li>
+<li>函数使用全局变量、静态变量的话<ul>
+<li>只有一个副本：多个任务使用的是同一个副本</li>
+<li>要防止冲突<br>示例：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ATaskFunction</span><span class="params">( <span class="type">void</span> *pvParameters )</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">/* 对于不同的任务，局部变量放在任务的栈里，有各自的副本 */</span></span><br><span class="line">	<span class="type">int32_t</span> lVariableExample = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/* 任务函数通常实现为一个无限循环 */</span></span><br><span class="line">	<span class="keyword">for</span>( ;; )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* 任务的代码 */</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 如果程序从循环中退出，一定要使用vTaskDelete删除自己</span></span><br><span class="line"><span class="comment">     * NULL表示删除的是自己</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">	vTaskDelete( <span class="literal">NULL</span> );</span><br><span class="line">    <span class="comment">/* 程序不会执行到这里, 如果执行到这里就出错了 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-2-2-创建任务"><a href="#9-2-2-创建任务" class="headerlink" title="9.2.2 创建任务"></a>9.2.2 创建任务</h3><p>创建任务时使用的函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BaseType_t <span class="title function_">xTaskCreate</span><span class="params">( TaskFunction_t pxTaskCode, <span class="comment">// 函数指针, 任务函数</span></span></span><br><span class="line"><span class="params">                        <span class="type">const</span> <span class="type">char</span> * <span class="type">const</span> pcName, <span class="comment">// 任务的名字</span></span></span><br><span class="line"><span class="params">                        <span class="type">const</span> configSTACK_DEPTH_TYPE usStackDepth, <span class="comment">// 栈大小,单位为word,10表示40字节</span></span></span><br><span class="line"><span class="params">                        <span class="type">void</span> * <span class="type">const</span> pvParameters, <span class="comment">// 调用任务函数时传入的参数</span></span></span><br><span class="line"><span class="params">                        UBaseType_t uxPriority,    <span class="comment">// 优先级</span></span></span><br><span class="line"><span class="params">                        TaskHandle_t * <span class="type">const</span> pxCreatedTask )</span>; <span class="comment">// 任务句柄, 以后使用它来操作这个任务</span></span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pvTaskCode</td>
+<td>函数指针，任务对应的 C 函数。任务应该永远不退出，或者在退出时调用 “vTaskDelete(NULL)”。</td>
+</tr>
+<tr>
+<td>pcName</td>
+<td>任务的名称，仅用于调试目的，FreeRTOS 内部不使用。pcName 的长度为 configMAX_TASK_NAME_LEN。</td>
+</tr>
+<tr>
+<td>usStackDepth</td>
+<td>每个任务都有自己的栈，usStackDepth 指定了栈的大小，单位为 word。例如，如果传入 100，表示栈的大小为 100 word，即 400 字节。最大值为 uint16_t 的最大值。确定栈的大小并不容易，通常是根据估计来设定。精确的办法是查看反汇编代码。</td>
+</tr>
+<tr>
+<td>pvParameters</td>
+<td>调用 pvTaskCode 函数指针时使用的参数：pvTaskCode(pvParameters)。</td>
+</tr>
+<tr>
+<td>uxPriority</td>
+<td>任务的优先级范围为 0~(configMAX_PRIORITIES – 1)。数值越小，优先级越低。如果传入的值过大，xTaskCreate 会将其调整为 (configMAX_PRIORITIES – 1)。</td>
+</tr>
+<tr>
+<td>pxCreatedTask</td>
+<td>用于保存 xTaskCreate 的输出结果，即任务的句柄（task handle）。如果以后需要对该任务进行操作，如修改优先级，则需要使用此句柄。如果不需要使用该句柄，可以传入 NULL。</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>成功时返回 pdPASS，失败时返回 errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY（失败原因是内存不足）。请注意，文档中提到的失败返回值是 pdFAIL 是不正确的。pdFAIL 的值为 0，而 errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY 的值为 -1。</td>
+</tr>
+</tbody></table>
+<p>使用静态分配内存的函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t <span class="title function_">xTaskCreateStatic</span> <span class="params">( </span></span><br><span class="line"><span class="params">    TaskFunction_t pxTaskCode,   <span class="comment">// 函数指针, 任务函数</span></span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">char</span> * <span class="type">const</span> pcName,   <span class="comment">// 任务的名字</span></span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">uint32_t</span> ulStackDepth, <span class="comment">// 栈大小,单位为word,10表示40字节</span></span></span><br><span class="line"><span class="params">    <span class="type">void</span> * <span class="type">const</span> pvParameters,   <span class="comment">// 调用任务函数时传入的参数</span></span></span><br><span class="line"><span class="params">    UBaseType_t uxPriority,      <span class="comment">// 优先级</span></span></span><br><span class="line"><span class="params">    StackType_t * <span class="type">const</span> puxStackBuffer, <span class="comment">// 静态分配的栈，就是一个buffer</span></span></span><br><span class="line"><span class="params">    StaticTask_t * <span class="type">const</span> pxTaskBuffer <span class="comment">// 静态分配的任务结构体的指针，用它来操作这个任务</span></span></span><br><span class="line"><span class="params">)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>相比于使用动态分配内存创建任务的函数，最后2个参数不一样：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pvTaskCode</td>
+<td>函数指针，可以简单地认为任务就是一个C函数。 它稍微特殊一点：永远不退出，或者退出时要调用”vTaskDelete(NULL)”</td>
+</tr>
+<tr>
+<td>pcName</td>
+<td>任务的名字，FreeRTOS内部不使用它，仅仅起调试作用。 长度为：configMAX_TASK_NAME_LEN</td>
+</tr>
+<tr>
+<td>usStackDepth</td>
+<td>每个任务都有自己的栈，这里指定栈大小。 单位是word，比如传入100，表示栈大小为100 word，也就是400字节。 最大值为uint16_t的最大值。 怎么确定栈的大小，并不容易，很多时候是估计。 精确的办法是看反汇编码。</td>
+</tr>
+<tr>
+<td>pvParameters</td>
+<td>调用pvTaskCode函数指针时用到：pvTaskCode(pvParameters)</td>
+</tr>
+<tr>
+<td>uxPriority</td>
+<td>优先级范围：0~(configMAX_PRIORITIES – 1) 数值越小优先级越低， 如果传入过大的值，xTaskCreate会把它调整为(configMAX_PRIORITIES – 1)</td>
+</tr>
+<tr>
+<td>puxStackBuffer</td>
+<td>静态分配的栈内存，比如可以传入一个数组， 它的大小是usStackDepth*4。</td>
+</tr>
+<tr>
+<td>pxTaskBuffer</td>
+<td>静态分配的StaticTask_t结构体的指针</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>成功：返回任务句柄； 失败：NULL</td>
+</tr>
+</tbody></table>
+<h3 id="9-2-5-任务的删除"><a href="#9-2-5-任务的删除" class="headerlink" title="9.2.5 任务的删除"></a>9.2.5 任务的删除</h3><p>删除任务时使用的函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskDelete</span><span class="params">( TaskHandle_t xTaskToDelete )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pvTaskCode</td>
+<td>任务句柄，使用xTaskCreate创建任务时可以得到一个句柄。 也可传入NULL，这表示删除自己。</td>
+</tr>
+</tbody></table>
+<p>怎么删除任务？举个不好的例子：</p>
+<ul>
+<li>自杀：vTaskDelete(NULL)</li>
+<li>被杀：别的任务执行vTaskDelete(pvTaskCode)，pvTaskCode是自己的句柄</li>
+<li>杀人：执行vTaskDelete(pvTaskCode)，pvTaskCode是别的任务的句柄</li>
+</ul>
+<h3 id="9-2-6-示例3-删除任务"><a href="#9-2-6-示例3-删除任务" class="headerlink" title="9.2.6 示例3: 删除任务"></a>9.2.6 示例3: 删除任务</h3><p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 读取红外遥控器 */</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == IRReceiver_Read(&amp;dev, &amp;data))</span><br><span class="line">		&#123;		</span><br><span class="line">			<span class="keyword">if</span> (data == <span class="number">0xa8</span>) <span class="comment">/* play */</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">/* 创建播放音乐的任务 */</span></span><br><span class="line">			  <span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">PlayMusic</span><span class="params">(<span class="type">void</span> *params)</span>;</span><br><span class="line">			  <span class="keyword">if</span> (xSoundTaskHandle == <span class="literal">NULL</span>)</span><br><span class="line">			  &#123;</span><br><span class="line">					LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">					LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Create Task&quot;</span>);</span><br><span class="line">					ret = xTaskCreate(PlayMusic, <span class="string">&quot;SoundTask&quot;</span>, <span class="number">128</span>, <span class="literal">NULL</span>, osPriorityNormal, &amp;xSoundTaskHandle);</span><br><span class="line">			  &#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (data == <span class="number">0xa2</span>) <span class="comment">/* power */</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">/* 删除播放音乐的任务 */</span></span><br><span class="line">				<span class="keyword">if</span> (xSoundTaskHandle != <span class="literal">NULL</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">					LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Delete Task&quot;</span>);</span><br><span class="line">					vTaskDelete(xSoundTaskHandle);</span><br><span class="line">					PassiveBuzzer_Control(<span class="number">0</span>); <span class="comment">/* 停止蜂鸣器 */</span></span><br><span class="line">					xSoundTaskHandle = <span class="literal">NULL</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="9-3-任务优先级"><a href="#9-3-任务优先级" class="headerlink" title="9.3 任务优先级"></a>9.3 任务优先级</h2><h3 id="9-3-1-任务优先级"><a href="#9-3-1-任务优先级" class="headerlink" title="9.3.1 任务优先级"></a>9.3.1 任务优先级</h3><p>优先级的取值范围是：0~(configMAX_PRIORITIES – 1)，数值越大优先级越高。</p>
+<p>FreeRTOS的调度器可以使用2种方法来快速找出优先级最高的、可以运行的任务。使用不同的方法时，configMAX_PRIORITIES 的取值有所不同。</p>
+<ul>
+<li>通用方法</li>
+</ul>
+<p>使用C函数实现，对所有的架构都是同样的代码。对configMAX_PRIORITIES的取值没有限制。但是configMAX_PRIORITIES的取值还是尽量小，因为取值越大越浪费内存，也浪费时间。</p>
+<p>configUSE_PORT_OPTIMISED_TASK_SELECTION被定义为0、或者未定义时，使用此方法。</p>
+<ul>
+<li>架构相关的优化的方法</li>
+</ul>
+<p>架构相关的汇编指令，可以从一个32位的数里快速地找出为1的最高位。使用这些指令，可以快速找出优先级最高的、可以运行的任务。使用这种方法时，configMAX_PRIORITIES的取值不能超过32。</p>
+<p>configUSE_PORT_OPTIMISED_TASK_SELECTION被定义为1时，使用此方法。</p>
+<ul>
+<li>FreeRTOS会确保最高优先级的、可运行的任务，马上就能执行</li>
+<li>对于相同优先级的、可运行的任务，轮流执行</li>
+</ul>
+<h3 id="修改优先级"><a href="#修改优先级" class="headerlink" title="修改优先级"></a>修改优先级</h3><p>使用uxTaskPriorityGet来获得任务的优先级：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UBaseType_t <span class="title function_">uxTaskPriorityGet</span><span class="params">( <span class="type">const</span> TaskHandle_t xTask )</span>;</span><br></pre></td></tr></table></figure>
+<p>使用参数xTask来指定任务，设置为NULL表示获取自己的优先级。</p>
+<p>使用vTaskPrioritySet 来设置任务的优先级：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskPrioritySet</span><span class="params">( TaskHandle_t xTask,</span></span><br><span class="line"><span class="params">                       UBaseType_t uxNewPriority )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用参数xTask来指定任务，设置为NULL表示获取自己的优先级。</p>
+<p>使用vTaskPrioritySet 来设置任务的优先级：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskPrioritySet</span><span class="params">( TaskHandle_t xTask,</span></span><br><span class="line"><span class="params">                       UBaseType_t uxNewPriority )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用参数xTask来指定任务，设置为NULL表示设置自己的优先级；</p>
+<p>参数uxNewPriority表示新的优先级，取值范围是0~(configMAX_PRIORITIES – 1)。</p>
+<h2 id="9-4-任务状态"><a href="#9-4-任务状态" class="headerlink" title="9.4 任务状态"></a>9.4 任务状态</h2><ul>
+<li>运行(Runing)</li>
+<li>阻塞状态(Blocked)</li>
+<li>暂停状态(Suspended)</li>
+<li>就绪状态(Ready)</li>
+</ul>
+<h3 id="9-4-1-阻塞状态-Blocked"><a href="#9-4-1-阻塞状态-Blocked" class="headerlink" title="9.4.1 阻塞状态(Blocked)"></a>9.4.1 阻塞状态(Blocked)</h3><p>在实际项目中，我们不会让一个任务一直运行，而是使用”事件驱动”的方法让它运行：</p>
+<ul>
+<li>任务要等待某个事件，事件发生后它才能运行</li>
+<li>在等待事件过程中，它不消耗CPU资源</li>
+<li>在等待事件的过程中，这个任务就处于阻塞状态(Blocked)</li>
+</ul>
+<p>在阻塞状态的任务，它可以等待两种类型的事件：</p>
+<ul>
+<li>时间相关的事件<ul>
+<li>可以等待一段时间：我等2分钟</li>
+<li>也可以一直等待，直到某个绝对时间：我等到下午3点</li>
+</ul>
+</li>
+<li>同步事件：这事件由别的任务，或者是中断程序产生<ul>
+<li>例子1：任务A等待任务B给它发送数据</li>
+<li>例子2：任务A等待用户按下按键</li>
+<li>同步事件的来源：<ul>
+<li>队列(queue)</li>
+<li>二进制信号量(binary semaphores)</li>
+<li>计数信号量(counting semaphores)</li>
+<li>互斥量(mutexes)</li>
+<li>递归互斥量、递归锁(recursive mutexes)</li>
+<li>事件组(event groups)</li>
+<li>任务通知(task notifications)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>在等待一个同步事件时，可以加上超时时间。比如等待队里数据，超时时间设为10ms：</p>
+<ul>
+<li>10ms之内有数据到来：成功返回</li>
+<li>10ms到了，还是没有数据：超时返回</li>
+</ul>
+<h3 id="9-4-2-暂停状态-Suspended"><a href="#9-4-2-暂停状态-Suspended" class="headerlink" title="9.4.2 暂停状态(Suspended)"></a>9.4.2 暂停状态(Suspended)</h3><p>FreeRTOS中的任务也可以进入暂停状态，唯一的方法是通过vTaskSuspend函数。函数原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskSuspend</span><span class="params">( TaskHandle_t xTaskToSuspend )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数xTaskToSuspend表示要暂停的任务，如果为NULL，表示暂停自己。</p>
+<p>要退出暂停状态，只能由别人来操作：</p>
+<ul>
+<li>别的任务调用：vTaskResume </li>
+<li>中断程序调用：xTaskResumeFromISR</li>
+</ul>
+<h3 id="9-4-3-就绪状态-Ready"><a href="#9-4-3-就绪状态-Ready" class="headerlink" title="9.4.3 就绪状态(Ready)"></a>9.4.3 就绪状态(Ready)</h3><p>这个任务完全准备好了，随时可以运行：只是还轮不到它。这时，它就处于就绪态(Ready)。</p>
+<h2 id="9-5-示例-任务暂停"><a href="#9-5-示例-任务暂停" class="headerlink" title="9.5 示例: 任务暂停"></a>9.5 示例: 任务暂停</h2><p>本程序会：使用vTaskSuspend暂停音乐播放任务，使用vTaskResume恢复它，实现音乐的暂停播放、继续播放功能。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">01</span> <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">02</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="number">03</span>   <span class="comment">/* 读取红外遥控器 */</span></span><br><span class="line"></span><br><span class="line"><span class="number">04</span>		<span class="keyword">if</span> (<span class="number">0</span> == IRReceiver_Read(&amp;dev, &amp;data))</span><br><span class="line"></span><br><span class="line"><span class="number">05</span>		&#123;		</span><br><span class="line"></span><br><span class="line"><span class="number">06</span>			<span class="keyword">if</span> (data == <span class="number">0xa8</span>) <span class="comment">/* play */</span></span><br><span class="line"></span><br><span class="line"><span class="number">07</span>			&#123;</span><br><span class="line"></span><br><span class="line"><span class="number">08</span>				<span class="comment">/* 创建播放音乐的任务 */</span></span><br><span class="line"></span><br><span class="line"><span class="number">09</span>			 <span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">PlayMusic</span><span class="params">(<span class="type">void</span> *params)</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">10</span>			 <span class="keyword">if</span> (xSoundTaskHandle == <span class="literal">NULL</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">11</span>			 &#123;</span><br><span class="line"></span><br><span class="line"><span class="number">12</span>					LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">13</span>					LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Create Task&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">14</span>					ret = xTaskCreate(PlayMusic, <span class="string">&quot;SoundTask&quot;</span>, <span class="number">128</span>, <span class="literal">NULL</span>, osPriorityNormal+<span class="number">1</span>, &amp;xSoundTaskHandle);</span><br><span class="line"></span><br><span class="line"><span class="number">15</span>					bRunning = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">16</span>			 &#125;</span><br><span class="line"></span><br><span class="line"><span class="number">17</span>			 <span class="keyword">else</span></span><br><span class="line"></span><br><span class="line"><span class="number">18</span>			 &#123;</span><br><span class="line"></span><br><span class="line"><span class="number">19</span>				 <span class="comment">/* 要么suspend要么resume */</span></span><br><span class="line"></span><br><span class="line"><span class="number">20</span>				 <span class="keyword">if</span> (bRunning)</span><br><span class="line"></span><br><span class="line"><span class="number">21</span>				 &#123;</span><br><span class="line"></span><br><span class="line"><span class="number">22</span>					 LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">23</span>					 LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Suspend Task&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">24</span>					 vTaskSuspend(xSoundTaskHandle);</span><br><span class="line"></span><br><span class="line"><span class="number">25</span>					 PassiveBuzzer_Control(<span class="number">0</span>); <span class="comment">/* 停止蜂鸣器 */</span></span><br><span class="line"></span><br><span class="line"><span class="number">26</span>					 bRunning = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">27</span>				 &#125;</span><br><span class="line"></span><br><span class="line"><span class="number">28</span>				 <span class="keyword">else</span></span><br><span class="line"></span><br><span class="line"><span class="number">29</span>				 &#123;</span><br><span class="line"></span><br><span class="line"><span class="number">30</span>					 LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">31</span>					 LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Resume Task&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">32</span>					 vTaskResume(xSoundTaskHandle);</span><br><span class="line"></span><br><span class="line"><span class="number">33</span>					 bRunning = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">34</span>				 &#125;</span><br><span class="line"></span><br><span class="line"><span class="number">35</span>			 &#125;</span><br><span class="line"></span><br><span class="line"><span class="number">36</span>			&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">37</span>			</span><br><span class="line"></span><br><span class="line"><span class="number">38</span>			<span class="keyword">else</span> <span class="keyword">if</span> (data == <span class="number">0xa2</span>) <span class="comment">/* power */</span></span><br><span class="line"></span><br><span class="line"><span class="number">39</span>			&#123;</span><br><span class="line"></span><br><span class="line"><span class="number">40</span>				<span class="comment">/* 删除播放音乐的任务 */</span></span><br><span class="line"></span><br><span class="line"><span class="number">41</span>				<span class="keyword">if</span> (xSoundTaskHandle != <span class="literal">NULL</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">42</span>				&#123;</span><br><span class="line"></span><br><span class="line"><span class="number">43</span>					LCD_ClearLine(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">44</span>					LCD_PrintString(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Delete Task&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="number">45</span>					vTaskDelete(xSoundTaskHandle);</span><br><span class="line"></span><br><span class="line"><span class="number">46</span>					PassiveBuzzer_Control(<span class="number">0</span>); <span class="comment">/* 停止蜂鸣器 */</span></span><br><span class="line"></span><br><span class="line"><span class="number">47</span>					xSoundTaskHandle = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">48</span>				&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">49</span>			&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">50</span>		&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">51</span>  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>第1次按下红外遥控器的播放按钮时，执行第14行的代码来创建音乐任务。</p>
+<p>后续按下红外遥控器的播放按钮时，要么使用第24行的代码来暂停音乐任务，要么使用第32行的代码来恢复音乐任务。</p>
+<p>按下红外遥控器的电源按钮时，执行第46行的代码来删除音乐任务。</p>
+<h2 id="9-6-Delay函数"><a href="#9-6-Delay函数" class="headerlink" title="9.6 Delay函数"></a>9.6 Delay函数</h2><h3 id="9-6-1-两个Delay函数"><a href="#9-6-1-两个Delay函数" class="headerlink" title="9.6.1 两个Delay函数"></a>9.6.1 两个Delay函数</h3><p>有两个Delay函数：</p>
+<ul>
+<li>vTaskDelay：至少等待指定个数的Tick Interrupt才能变为就绪状态</li>
+<li>vTaskDelayUntil：等待到指定的绝对时刻，才能变为就绪态。</li>
+</ul>
+<p>这2个函数原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskDelay</span><span class="params">( <span class="type">const</span> TickType_t xTicksToDelay )</span>; <span class="comment">/* xTicksToDelay: 等待多少给Tick */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* pxPreviousWakeTime: 上一次被唤醒的时间</span></span><br><span class="line"><span class="comment"> * xTimeIncrement: 要阻塞到(pxPreviousWakeTime + xTimeIncrement)</span></span><br><span class="line"><span class="comment"> * 单位都是Tick Count</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">BaseType_t <span class="title function_">xTaskDelayUntil</span><span class="params">( TickType_t * <span class="type">const</span> pxPreviousWakeTime,</span></span><br><span class="line"><span class="params">                            <span class="type">const</span> TickType_t xTimeIncrement )</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用vTaskDelay(n)时，进入、退出vTaskDelay的时间间隔至少是n个Tick中断</li>
+<li>使用xTaskDelayUntil(&amp;Pre, n)时，前后两次退出xTaskDelayUntil的时间至少是n个Tick中断<ul>
+<li>退出xTaskDelayUntil时任务就进入的就绪状态，一般都能得到执行机会</li>
+<li>所以可以使用xTaskDelayUntil来让任务周期性地运行</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-7-空闲任务"><a href="#9-7-空闲任务" class="headerlink" title="9.7 空闲任务"></a>9.7 空闲任务</h2><h3 id="9-7-1-介绍"><a href="#9-7-1-介绍" class="headerlink" title="9.7.1 介绍"></a>9.7.1 介绍</h3><p>空闲任务(Idle任务)的作用之一：释放被删除的任务的内存。</p>
+<p>除了上述目的之外，为什么必须要有空闲任务？一个良好的程序，它的任务都是事件驱动的：平时大部分时间处于阻塞状态。有可能我们自己创建的所有任务都无法执行，但是调度器必须能找到一个可以运行的任务：所以，我们要提供空闲任务。在使用vTaskStartScheduler()函数来创建、启动调度器时，这个函数内部会创建空闲任务：</p>
+<ul>
+<li>空闲任务优先级为0：它不能阻碍用户任务运行</li>
+<li>空闲任务要么处于就绪态，要么处于运行态，永远不会阻塞</li>
+</ul>
+<p>空闲任务的优先级为0，这意味着一旦某个用户的任务变为就绪态，那么空闲任务马上被切换出去，让这个用户任务运行。在这种情况下，我们说用户任务”抢占”(pre-empt)了空闲任务，这是由调度器实现的。</p>
+<p>要注意的是：如果使用vTaskDelete()来删除任务，那么你就要确保空闲任务有机会执行，否则就无法释放被删除任务的内存。</p>
+<h2 id="9-8-调度算法"><a href="#9-8-调度算法" class="headerlink" title="9.8 调度算法"></a>9.8 调度算法</h2><h3 id="9-8-1-概念"><a href="#9-8-1-概念" class="headerlink" title="9.8.1 概念"></a>9.8.1 概念</h3><p>正在运行的任务，被称为”正在使用处理器”，它处于运行状态。在单处理系统中，任何时间里只能有一个任务处于运行状态。</p>
+<p>非运行状态的任务，它处于这3中状态之一：阻塞(Blocked)、暂停(Suspended)、就绪(Ready)。就绪态的任务，可以被调度器挑选出来切换为运行状态，调度器永远都是挑选最高优先级的就绪态任务并让它进入运行状态。</p>
+<p>阻塞状态的任务，它在等待”事件”，当事件发生时任务就会进入就绪状态。事件分为两类：时间相关的事件、同步事件。所谓时间相关的事件，就是设置超时时间：在指定时间内阻塞，时间到了就进入就绪状态。使用时间相关的事件，可以实现周期性的功能、可以实现超时功能。同步事件就是：某个任务在等待某些信息，别的任务或者中断服务程序会给它发送信息。怎么”发送信息”？方法很多，有：任务通知(task notification)、队列(queue)、事件组(event group)、信号量(semaphoe)、互斥量(mutex)等。这些方法用来发送同步信息，比如表示某个外设得到了数据。</p>
+<h3 id="9-8-2-配置调度算法"><a href="#9-8-2-配置调度算法" class="headerlink" title="9.8.2 配置调度算法"></a>9.8.2 配置调度算法</h3><p>所谓调度算法，就是怎么确定哪个就绪态的任务可以切换为运行状态。</p>
+<p>通过配置文件FreeRTOSConfig.h的两个配置项来配置调度算法：configUSE_PREEMPTION、configUSE_TIME_SLICING。</p>
+<p>还有第三个配置项：configUSE_TICKLESS_IDLE，它是一个高级选项，用于关闭Tick中断来实现省电，后续单独讲解。现在我们假设configUSE_TICKLESS_IDLE被设为0，先不使用这个功能。<br>调度算法的行为主要体现在两方面：高优先级的任务先运行、同优先级的就绪态任务如何被选中。调度算法要确保同优先级的就绪态任务，能”轮流”运行，策略是”轮转调度”(Round Robin Scheduling)。轮转调度并不保证任务的运行时间是公平分配的，我们还可以细化时间的分配方法。<br>从3个角度统一理解多种调度算法：</p>
+<ul>
+<li>可否抢占？高优先级的任务能否优先执行(配置项: configUSE_PREEMPTION)<ul>
+<li>可以：被称作”可抢占调度”(Pre-emptive)，高优先级的就绪任务马上执行，下面再细化。</li>
+<li>不可以：不能抢就只能协商了，被称作”合作调度模式”(Co-operative Scheduling)<ul>
+<li>当前任务执行时，更高优先级的任务就绪了也不能马上运行，只能等待当前任务主动让出CPU资源。</li>
+<li>其他同优先级的任务也只能等待：更高优先级的任务都不能抢占，平级的更应该老实点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可抢占的前提下，同优先级的任务是否轮流执行(配置项：configUSE_TIME_SLICING)<ul>
+<li>轮流执行：被称为”时间片轮转”(Time Slicing)，同优先级的任务轮流执行，你执行一个时间片、我再执行一个时间片</li>
+<li>不轮流执行：英文为”without Time Slicing”，当前任务会一直执行，直到主动放弃、或者被高优先级任务抢占</li>
+</ul>
+</li>
+<li>在”可抢占”+”时间片轮转”的前提下，进一步细化：空闲任务是否让步于用户任务(配置项：configIDLE_SHOULD_YIELD)<ul>
+<li>空闲任务低人一等，每执行一次循环，就看看是否主动让位给用户任务</li>
+<li>空闲任务跟用户任务一样，大家轮流执行，没有谁更特殊<br>列表如下：</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>配置项</strong></th>
+<th><strong>A</strong></th>
+<th><strong>B</strong></th>
+<th><strong>C</strong></th>
+<th><strong>D</strong></th>
+<th><strong>E</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>configUSE_PREEMPTION</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>configUSE_TIME_SLICING</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>x</td>
+</tr>
+<tr>
+<td>configIDLE_SHOULD_YIELD</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>x</td>
+</tr>
+<tr>
+<td>说明</td>
+<td>常用</td>
+<td>很少用</td>
+<td>很少用</td>
+<td>很少用</td>
+<td>几乎不用</td>
+</tr>
+</tbody></table>
+<p>注：</p>
+<ul>
+<li>A：可抢占+时间片轮转+空闲任务让步</li>
+<li>B：可抢占+时间片轮转+空闲任务不让步</li>
+<li>C：可抢占+非时间片轮转+空闲任务让步</li>
+<li>D：可抢占+非时间片轮转+空闲任务不让步</li>
+<li>E：合作调度</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">大连第一辅助</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/01/%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%BB%BB%E5%8A%A1%E7%A8%8B%E5%BA%8F/">http://example.com/2023/03/01/%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%BB%BB%E5%8A%A1%E7%A8%8B%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kingの博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/freeRtos/">freeRtos</a></div><div class="post_share"><div class="social-share" data-image="/./img/space-2334655_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/10/IP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/"><img class="prev-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">IP协议详解</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/25/FreeRtos%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA/"><img class="next-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">FreeRtos工程创建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/25/FreeRtos%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA/" title="FreeRtos工程创建"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-25</div><div class="title">FreeRtos工程创建</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">大连第一辅助</div><div class="author-info__description">怀揣梦想的程序员一名</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dlprogrammmer" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">LOL恕瑞玛五排缺少ADC，欢迎加入车队</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-%E4%BB%BB%E5%8A%A1%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-number">1.</span> <span class="toc-text">9.2 任务创建与删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.1.</span> <span class="toc-text">9.2.1 什么是任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-2-%E5%88%9B%E5%BB%BA%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">9.2.2 创建任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-5-%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-number">1.3.</span> <span class="toc-text">9.2.5 任务的删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-6-%E7%A4%BA%E4%BE%8B3-%E5%88%A0%E9%99%A4%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.4.</span> <span class="toc-text">9.2.6 示例3: 删除任务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-%E4%BB%BB%E5%8A%A1%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.</span> <span class="toc-text">9.3 任务优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-1-%E4%BB%BB%E5%8A%A1%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.1.</span> <span class="toc-text">9.3.1 任务优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.2.</span> <span class="toc-text">修改优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-4-%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">3.</span> <span class="toc-text">9.4 任务状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-1-%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81-Blocked"><span class="toc-number">3.1.</span> <span class="toc-text">9.4.1 阻塞状态(Blocked)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-2-%E6%9A%82%E5%81%9C%E7%8A%B6%E6%80%81-Suspended"><span class="toc-number">3.2.</span> <span class="toc-text">9.4.2 暂停状态(Suspended)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-3-%E5%B0%B1%E7%BB%AA%E7%8A%B6%E6%80%81-Ready"><span class="toc-number">3.3.</span> <span class="toc-text">9.4.3 就绪状态(Ready)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-5-%E7%A4%BA%E4%BE%8B-%E4%BB%BB%E5%8A%A1%E6%9A%82%E5%81%9C"><span class="toc-number">4.</span> <span class="toc-text">9.5 示例: 任务暂停</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-6-Delay%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">9.6 Delay函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-6-1-%E4%B8%A4%E4%B8%AADelay%E5%87%BD%E6%95%B0"><span class="toc-number">5.1.</span> <span class="toc-text">9.6.1 两个Delay函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-7-%E7%A9%BA%E9%97%B2%E4%BB%BB%E5%8A%A1"><span class="toc-number">6.</span> <span class="toc-text">9.7 空闲任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-7-1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">6.1.</span> <span class="toc-text">9.7.1 介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-8-%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">9.8 调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-8-1-%E6%A6%82%E5%BF%B5"><span class="toc-number">7.1.</span> <span class="toc-text">9.8.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-8-2-%E9%85%8D%E7%BD%AE%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">7.2.</span> <span class="toc-text">9.8.2 配置调度算法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="vs2022+opencv环境配置">vs2022+opencv环境配置</a><time datetime="2024-02-01T13:13:00.000Z" title="发表于 2024-02-01 21:13:00">2024-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/28/PWM/" title="PWM">PWM</a><time datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/ADC/" title="ADC">ADC</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO">GPIO</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议">IIC协议</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 大连第一辅助</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

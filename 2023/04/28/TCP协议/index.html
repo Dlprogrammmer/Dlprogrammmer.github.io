@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>TCP协议 | Kingの博客</title><meta name="keywords" content="linux"><meta name="author" content="大连第一辅助,1656892276@qq.com"><meta name="copyright" content="大连第一辅助"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="TCP协议的特点面向连接：使用TCP协议通信的双方必须先建立TCP连接，并在内核中为该连接维持一些必要的数据结构，比如连接的状态、读写缓冲区，以及诸多定时器等字节流：基于流的数据没有边界（长度）限制，它源源不断地从通信的一端流入另一端。发送端可以逐个字节地向数据流中写入数据，接收端也可以逐个字节地将它们读出。可靠传输：TCP协议使用超时重传、数据确认等方式来确保数据包被正确地发送至目的端TCP头部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP协议">
+<meta property="og:url" content="http://example.com/2023/04/28/TCP%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="Kingの博客">
+<meta property="og:description" content="TCP协议的特点面向连接：使用TCP协议通信的双方必须先建立TCP连接，并在内核中为该连接维持一些必要的数据结构，比如连接的状态、读写缓冲区，以及诸多定时器等字节流：基于流的数据没有边界（长度）限制，它源源不断地从通信的一端流入另一端。发送端可以逐个字节地向数据流中写入数据，接收端也可以逐个字节地将它们读出。可靠传输：TCP协议使用超时重传、数据确认等方式来确保数据包被正确地发送至目的端TCP头部">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/space-2334655_1920.jpg">
+<meta property="article:published_time" content="2023-04-28T05:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-28T05:30:39.897Z">
+<meta property="article:author" content="大连第一辅助">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/space-2334655_1920.jpg"><link rel="shortcut icon" href="/./img/2a8c2a2267474c19b074a1cb92359e30(1).png"><link rel="canonical" href="http://example.com/2023/04/28/TCP%E5%8D%8F%E8%AE%AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TCP协议',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-05-28 13:30:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/./img/space-2334655_1920.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kingの博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">TCP协议</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-28T05:00:00.000Z" title="发表于 2023-04-28 13:00:00">2023-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-28T05:30:39.897Z" title="更新于 2023-05-28 13:30:39">2023-05-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="TCP协议"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>TCP协议的特点<br>面向连接：使用TCP协议通信的双方必须先建立TCP连接，并在内核中为该连接维持一些必要的数据结构，比如连接的状态、读写缓冲区，以及诸多定时器等<br>字节流：基于流的数据没有边界（长度）限制，它源源不断地从通信的一端流入另一端。发送端可以逐个字节地向数据流中写入数据，接收端也可以逐个字节地将它们读出。<br>可靠传输：TCP协议使用超时重传、数据确认等方式来确保数据包被正确地发送至目的端<br>TCP头部结构</p>
+<table>
+    <tbody>
+    <tr>
+        <td colspan="3" style="text-align: center;" >16位源端口号</td>
+        <td colspan="3" style="text-align: center;">16位目的端口号</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="text-align: center;">32位序号</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="text-align: center;">32位确认号</td>
+    </tr>
+    <tr>
+        <td  colspan="1"style="text-align: center;">4位头部长度</td>
+         <td  colspan="1"style="text-align: center;">6位数保留</td>
+          <td  colspan="1"style="text-align: center;">6位标志位</td>
+           <td colspan="3" style="text-align: center;">16位窗口大小</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: center;">16位校验和</td>
+         <td colspan="3" style="text-align: center;">16位紧急指针</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="text-align: center;">选项，最多40字节</td>
+    </tr>
+    </tbody>
+</table>
+6位标志位包含如下几项：
+URG标志，表示紧急指针（urgent pointer）是否有效。
+ACK标志，表示确认号是否有效。我们称携带ACK标志的TCP报文段为确认报文段。
+PSH标志，提示接收端应用程序应该立即从TCP接收缓冲区中读走数据，为接收后续数据腾出空间（如果应用程序不将接收到的数据读走，它们就会一直停留在TCP接收缓冲区中）。
+RST标志，表示要求对方重新建立连接。我们称携带RST标志的TCP报文段为复位报文段。
+SYN标志，表示请求建立一个连接。我们称携带SYN标志的TCP报文段为同步报文段。
+FIN标志，表示通知对方本端要关闭连接了。我们称携带FIN标志的TCP报文段为结束报文段。
+序号(Seq)：报文段首字节的字节流编号
+例：第一个报文段序号为0，大小为1000字节，则第二个报文段的序号为1000
+确认号(Ack)：主机A填充进报文段的确认号是主机期望从主机A期望收到的主机B下一个字节的序号
+例：，假设主机A已收到一个来自主机B的包含字节0~535的报文段，以及另一个包含字节900 ~ l000的报文段,则A的下一个报文的确认号为536
+
+<ul>
+<li>序列号的作用</li>
+</ul>
+<ol>
+<li>接收端可以去除重复数据</li>
+<li>接收端可以按照序列号顺序接收</li>
+<li>表示发送的数据包，哪些已经被接收到<br>三次握手：<br>1、第⼀个SYN(同步报⽂)：客户端随机初始化序列号client_isn，将其放入TCP首部序列号段，然后把SYN置1.将SYN报文发给服务端，表示发起连接，之后客户端处于SYN-SENT状态。(Seq&#x3D;client_isn)<br>2、第⼆个报⽂SYN+ACK(同步报⽂+确认报文)：服务端收到客户端的SYN报文，吧自己的序号放进TCO首部序列号段，确认号为client_ins+1，把SYN+ACK置1.把SYN+ACK报文发送给客户端，然后进入SYN-RCVD状态。(ACK&#x3D;client_isn+1,seq&#x3D;server_isn)<br>3、第三个报⽂ACK(确认报文)：客户端收到服务端报文后，向服务端回应一个应答报文。首先将TCP首部ACK标志位置1，其次确认应答号填入server_isn+1，最后把报文发给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于ESTABLISHED状态。(ACK&#x3D;server_isn+1,Seq&#x3D;client_isn+1)<br>服务端收到客户端的应答报文后，也进入ESTABLISHED状态。<br>三次握手的原因</li>
+</ol>
+<ul>
+<li>三次握手可以阻止重复历史连接的初始化(主因)</li>
+<li>三次握手可以同步双方的初始序列号</li>
+<li>三次握手可以避免资源浪费</li>
+</ul>
+<ol>
+<li>阻止重复历史连接初始化<br>当旧的SYN报文到达服务端，服务端回一个ACK+SYN报文，客户端收到后可以根据自身的上下文，如果发现这是一个历史连接(序列号过期或超时)，那么客户端就会发送一个RST(重置连接)给服务端，表示终止这次连接。<br>如果是两次握手，客户端在接收到服务端响应后只能选择发送数据，无法处理因网络问题所造成的历史连接</li>
+<li>同步双方的序列号<br>为了实现可靠数据传输，TCP 协议的通信双方，都必须维护一个序列号，以标识发送出去的数据包中，哪些是已经被对方收到的 三次握手的过程即是通信双方相互告知序列号起始值，并确认对方已经收到了序列号起始值的必经步骤。如果只是两次握手， 至多只有连接发起方的起始序列号能被确认接收， 另一方选择的序列号则不能确认接收（可以接受到序号，但是没有确认序号是否准确）。</li>
+<li>避免资源浪费<br>由于没有第三次握⼿，服务器不清楚客户端是否收到了⾃⼰发送的建⽴连接的ACK确认信号，所以每收到⼀个SYN就只能先主动建⽴⼀个连接。<br>四次挥手<br>在断开连接之前客户端和服务器都处于ESTABLISHED状态，双方都可以主动断开连接，以客户端主动断开连接为优。<br>第一次挥手：客户端打算断开连接，向服务器发送FIN报文(FI<br>N标记位被设置为1，1表示为FIN，0表示不是)，FIN报文中会指定一个序列号，之后客户端进入FIN_WAIT_1状态。</li>
+</ol>
+<p>也就是客户端发出连接释放报文段(FIN报文)，指定序列号seq &#x3D; u，主动关闭TCP连接，等待服务器的确认。</p>
+<p>第二次挥手：服务器收到连接释放报文段(FIN报文)后，就向客户端发送ACK应答报文，以客户端的FIN报文的序列号 seq+1 作为ACK应答报文段的确认序列号ack &#x3D; seq+1 &#x3D; u + 1。</p>
+<p>接着服务器进入CLOSE_WAIT(等待关闭)状态，此时的TCP处于半关闭状态(下面会说什么是半关闭状态)，客户端到服务器的连接释放。客户端收到来自服务器的ACK应答报文段后，进入FIN_WAIT_2状态。</p>
+<p>第三次握手：服务器也打算断开连接，向客户端发送连接释放(FIN)报文段，之后服务器进入LASK_ACK(最后确认)状态，等待客户端的确认。</p>
+<p>服务器的连接释放(FIN)报文段的FIN&#x3D;1，ACK&#x3D;1，序列号seq&#x3D;m，确认序列号ack&#x3D;u+1。</p>
+<p>第四次握手：客户端收到来自服务器的连接释放(FIN)报文段后，会向服务器发送一个ACK应答报文段，以连接释放(FIN)报文段的确认序号 ack 作为ACK应答报文段的序列号 seq，以连接释放(FIN)报文段的序列号 seq+1作为确认序号ack。</p>
+<p>之后客户端进入TIME_WAIT(时间等待)状态，服务器收到ACK应答报文段后，服务器就进入CLOSE(关闭)状态，到此服务器的连接已经完成关闭。</p>
+<p>客户端处于TIME_WAIT状态时，此时的TCP还未释放掉，需要等待2MSL后，客户端才进入CLOSE状态。<br>四次挥手的原因</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">大连第一辅助</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/28/TCP%E5%8D%8F%E8%AE%AE/">http://example.com/2023/04/28/TCP%E5%8D%8F%E8%AE%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kingの博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="/./img/space-2334655_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/05/15/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/"><img class="prev-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">cmake的使用</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/22/IO%E5%A4%8D%E7%94%A8/"><img class="next-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">IO复用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/01/Linux%E4%B8%AD%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C/" title="静态库与动态库的制作与使用"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">静态库与动态库的制作与使用</div></div></a></div><div><a href="/2023/05/20/linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" title="lunx文件操作"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-20</div><div class="title">lunx文件操作</div></div></a></div><div><a href="/2023/04/04/socket%E7%BC%96%E7%A8%8BAPI/" title="socket编程API"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-04</div><div class="title">socket编程API</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">大连第一辅助</div><div class="author-info__description">怀揣梦想的程序员一名</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dlprogrammmer" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">LOL恕瑞玛五排缺少ADC，欢迎加入车队</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="vs2022+opencv环境配置">vs2022+opencv环境配置</a><time datetime="2024-02-01T13:13:00.000Z" title="发表于 2024-02-01 21:13:00">2024-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/28/PWM/" title="PWM">PWM</a><time datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/ADC/" title="ADC">ADC</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO">GPIO</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议">IIC协议</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 大连第一辅助</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>PWM | Kingの博客</title><meta name="keywords" content="STM32"><meta name="author" content="大连第一辅助,1656892276@qq.com"><meta name="copyright" content="大连第一辅助"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概念PWM（Pulse Width Modulation，脉宽调制）是一种通过改变信号的脉冲宽度来控制电平的技术。在实际应用中，PWM常用于控制各种设备，如电机的速度调节、灯光的亮度调节以及音频的音量调节等。在STM32微控制器中，我们可以利用其内置的PWM外设来生成PWM信号，实现对外部设备的精确控制。 原理PWM信号由高电平和低电平组成。通过改变高电平和低电平的时间比例，可以实现对输出电平的控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWM">
+<meta property="og:url" content="http://example.com/2024/01/28/PWM/index.html">
+<meta property="og:site_name" content="Kingの博客">
+<meta property="og:description" content="概念PWM（Pulse Width Modulation，脉宽调制）是一种通过改变信号的脉冲宽度来控制电平的技术。在实际应用中，PWM常用于控制各种设备，如电机的速度调节、灯光的亮度调节以及音频的音量调节等。在STM32微控制器中，我们可以利用其内置的PWM外设来生成PWM信号，实现对外部设备的精确控制。 原理PWM信号由高电平和低电平组成。通过改变高电平和低电平的时间比例，可以实现对输出电平的控">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/space-2334655_1920.jpg">
+<meta property="article:published_time" content="2024-01-28T13:13:00.000Z">
+<meta property="article:modified_time" content="2024-02-16T13:25:08.198Z">
+<meta property="article:author" content="大连第一辅助">
+<meta property="article:tag" content="STM32">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/space-2334655_1920.jpg"><link rel="shortcut icon" href="/./img/2a8c2a2267474c19b074a1cb92359e30(1).png"><link rel="canonical" href="http://example.com/2024/01/28/PWM/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PWM',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-16 21:25:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/./img/space-2334655_1920.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kingの博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PWM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-16T13:25:08.198Z" title="更新于 2024-02-16 21:25:08">2024-02-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PWM"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>PWM（Pulse Width Modulation，脉宽调制）是一种通过改变信号的脉冲宽度来控制电平的技术。在实际应用中，PWM常用于控制各种设备，如电机的速度调节、灯光的亮度调节以及音频的音量调节等。在STM32微控制器中，我们可以利用其内置的PWM外设来生成PWM信号，实现对外部设备的精确控制。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>PWM信号由高电平和低电平组成。通过改变高电平和低电平的时间比例，可以实现对输出电平的控制。调整高电平时间比例可以改变输出电平的平均值，从而实现对设备的控制。</p>
+<h2 id="PWM模式"><a href="#PWM模式" class="headerlink" title="PWM模式"></a>PWM模式</h2><p>PWM模式1<br>向上计数：CNT&lt; CCR时，REF置有效电平，CNT≥CCR时，REF置无效电平<br>向下计数：CNT&gt; CCR时，REF置无效电平，CNT≤CCR时，REF置有效电平<br>PWM模式2<br>向上计数：CNT&lt; CCR时，REF置无效电平，CNT≥CCR时，REF置有效电平<br>向下计数：CNT&gt; CCR时，REF置有效电平，CNT≤CCR时，REF置无效电平</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul>
+<li>周期：周期是指PWM信号一个完整的周期所需要的时间。它包括一个高电平部分和一个低电平部分。周期由时钟源或计数器决定，并以时间单位（例如微秒、毫秒）表示。</li>
+<li>频率：频率是周期的倒数，表示PWM信号的重复率。以赫兹（Hz）为单位，即每秒钟发生的周期次数，常见的PWM频率范围从几十赫兹至数千赫兹不等。</li>
+<li>占空比：占空比是PWM信号的高电平时间占整个周期的百分比。通常用百分比表示，可以根据需求调整。占空比为50%时，信号处于平均电压位置，称为50%的占空比点。</li>
+<li>脉冲宽度：脉冲宽度是指PWM信号高电平的持续时间。脉冲宽度直接决定了PWM信号的实际效果，例如在LED调光中，脉冲宽度越长，LED亮度越高。</li>
+<li>分辨率：分辨率是指PWM信号幅度的细化程度。它表示将周期划分为多少个离散级别，决定了PWM信号的精度。较高的分辨率可以提供更平滑的输出，但可能需要更高的计算资源。</li>
+</ul>
+<h2 id="参数计算"><a href="#参数计算" class="headerlink" title="参数计算"></a>参数计算</h2><p>PWM频率：	Freq &#x3D; CK_PSC &#x2F; (PSC + 1) &#x2F; (ARR + 1)<br>PWM占空比：	Duty &#x3D; CCR &#x2F; (ARR + 1)<br>PWM分辨率：	Reso &#x3D; 1 &#x2F; (ARR + 1)</p>
+<h2 id="PWM控制舵机"><a href="#PWM控制舵机" class="headerlink" title="PWM控制舵机"></a>PWM控制舵机</h2><p>舵机是一种根据输入PWM信号占空比来控制输出角度的装置，输入PWM信号要求：周期为20ms，高电平宽度为0.5ms~2.5ms，500-2500us的PWM高电平部分对应控制180度舵机的0-180度。<br>以180度角度伺服为例，那么对应的控制关系是这样的：<br>0.5ms————–0度；<br>1.0ms————45度；<br>1.5ms————90度；<br>2.0ms———–135度；<br>2.5ms———–180度；</p>
+<h2 id="PWM驱动电机"><a href="#PWM驱动电机" class="headerlink" title="PWM驱动电机"></a>PWM驱动电机</h2><p>直流电机是一种将电能转换为机械能的装置，有两个电极，当电极正接时，电机正转，当电极反接时，电机反转。直流电机属于大功率器件，GPIO口无法直接驱动，需要配合电机驱动电路来操作。TB6612是一款双路H桥型的直流电机驱动芯片，可以驱动两个直流电机并且控制其转速和方向。在电机控制中，电压越大，电机转速越快，而通过PWM输出不同的模拟电压，便可以使电机达到不同的输出转速。</p>
+<h2 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PWM驱动舵机</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PWM_Init</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">RCC_APB1PeriphClockCmd</span>(RCC_APB1Periph_TIM2, ENABLE);</span><br><span class="line">	<span class="built_in">RCC_APB2PeriphClockCmd</span>(RCC_APB2Periph_GPIOA, ENABLE);</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;</span><br><span class="line">	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	<span class="built_in">GPIO_Init</span>(GPIOA, &amp;GPIO_InitStructure);</span><br><span class="line">	<span class="built_in">TIM_InternalClockConfig</span>(TIM2);</span><br><span class="line">	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;</span><br><span class="line">	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;</span><br><span class="line">	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;</span><br><span class="line">	TIM_TimeBaseInitStructure.TIM_Period = <span class="number">20000</span> - <span class="number">1</span>;		<span class="comment">//ARR</span></span><br><span class="line">	TIM_TimeBaseInitStructure.TIM_Prescaler = <span class="number">72</span> - <span class="number">1</span>;		<span class="comment">//PSC</span></span><br><span class="line">	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">TIM_TimeBaseInit</span>(TIM2, &amp;TIM_TimeBaseInitStructure);</span><br><span class="line">	TIM_OCInitTypeDef TIM_OCInitStructure;</span><br><span class="line">	<span class="built_in">TIM_OCStructInit</span>(&amp;TIM_OCInitStructure);</span><br><span class="line">	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;</span><br><span class="line">	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;</span><br><span class="line">	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;</span><br><span class="line">	TIM_OCInitStructure.TIM_Pulse = <span class="number">0</span>;		<span class="comment">//CCR</span></span><br><span class="line">	<span class="built_in">TIM_OC2Init</span>(TIM2, &amp;TIM_OCInitStructure);</span><br><span class="line">	<span class="built_in">TIM_Cmd</span>(TIM2, ENABLE);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PWM_SetCompare2</span><span class="params">(<span class="type">uint16_t</span> Compare)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">TIM_SetCompare2</span>(TIM2, Compare);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PWM驱动直流电机</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Motor_Init</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">RCC_APB2PeriphClockCmd</span>(RCC_APB2Periph_GPIOA, ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;</span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;</span><br><span class="line">	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">    <span class="built_in">GPIO_Init</span>(GPIOA, &amp;GPIO_InitStructure);</span><br><span class="line">	<span class="built_in">PWM_Init</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Motor_SetSpeed</span><span class="params">(<span class="type">int8_t</span> Speed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Speed &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">GPIO_SetBits</span>(GPIOA, GPIO_Pin_4);</span><br><span class="line">		<span class="built_in">GPIO_ResetBits</span>(GPIOA, GPIO_Pin_5);</span><br><span class="line">		<span class="built_in">PWM_SetCompare3</span>(Speed);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">GPIO_ResetBits</span>(GPIOA, GPIO_Pin_4);</span><br><span class="line">		<span class="built_in">GPIO_SetBits</span>(GPIOA, GPIO_Pin_5);</span><br><span class="line">		<span class="built_in">PWM_SetCompare3</span>(-Speed);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">大连第一辅助</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/01/28/PWM/">http://example.com/2024/01/28/PWM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kingの博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/STM32/">STM32</a></div><div class="post_share"><div class="social-share" data-image="/./img/space-2334655_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"><img class="prev-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">vs2022+opencv环境配置</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/01/ADC/"><img class="next-cover" src="/./img/space-2334655_1920.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ADC</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/01/ADC/" title="ADC"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">ADC</div></div></a></div><div><a href="/2023/05/15/DMA/" title="DMA"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-15</div><div class="title">DMA</div></div></a></div><div><a href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">GPIO</div></div></a></div><div><a href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">IIC协议</div></div></a></div><div><a href="/2024/01/01/SPI/" title="SPI协议"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">SPI协议</div></div></a></div><div><a href="/2024/01/01/STM32%E7%AE%80%E4%BB%8B/" title="STM32概述"><img class="cover" src="/./img/space-2334655_1920.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">STM32概述</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">大连第一辅助</div><div class="author-info__description">怀揣梦想的程序员一名</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dlprogrammmer" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">LOL恕瑞玛五排缺少ADC，欢迎加入车队</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWM%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">PWM模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AE%A1%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">参数计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWM%E6%8E%A7%E5%88%B6%E8%88%B5%E6%9C%BA"><span class="toc-number">6.</span> <span class="toc-text">PWM控制舵机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWM%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA"><span class="toc-number">7.</span> <span class="toc-text">PWM驱动电机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="toc-number">8.</span> <span class="toc-text">相关代码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="vs2022+opencv环境配置">vs2022+opencv环境配置</a><time datetime="2024-02-01T13:13:00.000Z" title="发表于 2024-02-01 21:13:00">2024-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/28/PWM/" title="PWM">PWM</a><time datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/ADC/" title="ADC">ADC</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO">GPIO</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议">IIC协议</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 大连第一辅助</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

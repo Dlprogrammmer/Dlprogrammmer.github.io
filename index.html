@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Kingの博客 - 不断学习，成为优质的C++程序员</title><meta name="author" content="大连第一辅助,1656892276@qq.com"><meta name="copyright" content="大连第一辅助"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="怀揣梦想的程序员一名">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kingの博客">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Kingの博客">
+<meta property="og:description" content="怀揣梦想的程序员一名">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp">
+<meta property="article:author" content="大连第一辅助">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp"><link rel="shortcut icon" href="/./img/2a8c2a2267474c19b074a1cb92359e30(1).png"><link rel="canonical" href="http://example.com/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kingの博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-03-20 22:52:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/./img/galaxy-2357504_1280%20(1).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kingの博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Kingの博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/Dlprogrammmer" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="vs2022+opencv环境配置">vs2022+opencv环境配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-02-01T13:13:00.000Z" title="发表于 2024-02-01 21:13:00">2024-02-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">安装步骤
+下载opencv
+下载连接 https://opencv.org/releases/
+
+
+添加包含目录
+在vs2022中选择视图-&gt;其他窗口-&gt;属性管理器
+右键点击Release|x64-&gt;属性
+选择通用属性中的VC++目录
+在包含目录中添加C:opencv\build\include\opencv2和C:opencv\build\include
+
+
+添加库目录
+在库目录中添加C:\opencv\build\x64\vc16\lib
+
+
+配置链接器
+更改链接器中的输入
+添加附加依赖项为库目录中文件名(例:opencv_world470.lib)
+
+
+更改环境变量
+添加环境C:\opencv\build\x64\vc16\bin
+
+
+更改运行配置为Realse和x64并运行测试程序
+
+测试代码12345678910#include &lt;iostream&gt;#include &lt;opencv2/opencv.hpp&gt;int main()&#123;    cv::Mat src = cv::imread(&quot;D:/opencv/R-C. ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/28/PWM/" title="PWM">PWM</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概念PWM（Pulse Width Modulation，脉宽调制）是一种通过改变信号的脉冲宽度来控制电平的技术。在实际应用中，PWM常用于控制各种设备，如电机的速度调节、灯光的亮度调节以及音频的音量调节等。在STM32微控制器中，我们可以利用其内置的PWM外设来生成PWM信号，实现对外部设备的精确控制。
+原理PWM信号由高电平和低电平组成。通过改变高电平和低电平的时间比例，可以实现对输出电平的控制。调整高电平时间比例可以改变输出电平的平均值，从而实现对设备的控制。
+PWM模式PWM模式1向上计数：CNT&lt; CCR时，REF置有效电平，CNT≥CCR时，REF置无效电平向下计数：CNT&gt; CCR时，REF置无效电平，CNT≤CCR时，REF置有效电平PWM模式2向上计数：CNT&lt; CCR时，REF置无效电平，CNT≥CCR时，REF置有效电平向下计数：CNT&gt; CCR时，REF置有效电平，CNT≤CCR时，REF置无效电平
+参数
+周期：周期是指PWM信号一个完整的周期所需要的时间。它包括一个高电平部分和一个低电平部分。周期由时钟源或计数器决定，并以时间单位（例如 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/ADC/" title="ADC">ADC</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概述ADC（Analog-Digital Converter）模拟-数字转换器，可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁，其输入电压范围：03.3V，转换结果范围：04095，一共有18个输入通道，可测量16个外部和2个内部信号源,分为规则组和注入组两个转换单元，可模拟看门狗自动监测输入电压范围。
+功能
+规则转换和注入转换均有外部触发选型；
+在规则通道转换期间，可以产生DMA（直接存储器存取）请求；（由于转化后的12位数据一般存储在ADC的寄存器中，转化后可以直接用DMA直接存储到存储器中），注入转换不允许产生DMA请求。
+自校准，在每次ADC开始转换前进行一次自校准；
+通道采样间隔时间：可编程；
+带内嵌数据一致性的数据对齐；（12位存储到16位的寄存器，我们需要设置左对齐还是右对齐）
+可设置成单次、连续、扫描、间断模式；
+双ADC模式，带2个ADC设备ADC1和ADC2；
+规则转换结束、注入转换结束和发生模拟看门狗事件（输入电压超出阈值）时产生中断。
+
+中断事件
+
+
+
+
+
+
+
+
+中断事件
+事件标志
+使能控制位
+
+
+规则组转换结束
+EOC
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO">GPIO</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">GPIO模式
+
+
+
+
+
+
+
+
+模式名称
+性质
+特征
+
+
+浮空输入
+数字输入
+可读取引脚电平，若引脚悬空，则电平不确定
+
+
+上拉输入
+数字输入
+可读取引脚电平，内部连接上拉电阻，悬空时默认高电平
+
+
+下拉输入
+数字输入
+可读取引脚电平，内部连接下拉电阻，悬空时默认低电平
+
+
+模拟输入
+模拟输入
+GPIO无效，引脚直接接入内部ADC
+
+
+开漏输出
+数字输出
+可输出引脚电平，高电平为高阻态，低电平接VSS
+
+
+推挽输出
+数字输出
+可输出引脚电平，高电平接VDD，低电平接VSS
+
+
+复用开漏输出
+数字输出
+由片上外设控制，高电平为高阻态，低电平接VSS
+
+
+复用推挽输出
+数字输出
+由片上外设控制，高电平接VDD，低电平接VSS
+
+
+GPIO输出知识点原理：通过控制端口输出高低地电平来驱动LED，控制蜂鸣器，模拟通信协议输出时序引脚电平：0V~3.3V 部分引脚可容忍5V
+代码通用操作1234567891011121314151617181920//开启APB2时钟	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);//定义结构体变量	GPI ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议">IIC协议</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概念I2C总线是由Philips（飞利浦）公司开发的一种简单、双向二线制同步串行总线，它只需要两根线即可在连接于总线上的器件之间传送信息。
+通信线
+SCL（Serial Clock）：时钟线，需通过上拉电阻接电源VCC，空闲时为高电平
+SDA（Serial Data）：数据线，需通过上拉电阻接电源VCC，空闲时为高电平
+
+通信过
+起始条件：SCL高电平期间，SDA从高电平切换到低电平
+终止条件：SCL高电平期间，SDA从低电平切换到高电平
+发送一个字节：SCL低电平期间，主机将数据位依次放到SDA线上（高位先行），然后释放SCL，从机将在SCL高电平期间读取数据位，所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可发送一个字节
+接收一个字节：SCL低电平期间，从机将数据位依次放到SDA线上（高位先行），然后释放SCL，主机将在SCL高电平期间读取数据位，所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可接收一个字节（主机在接收之前，需要释放SDA）
+发送应答：主机在接收完一个字节之后，在下一个时钟发送一位数据，数据0表示应答，数据1表示非应答
+接 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/SPI/" title="SPI协议">SPI协议</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概念SPI（Serial Peripheral Interface）是一种同步串行通信协议，用于在数字系统之间进行数据传输。它是一种全双工（Full-Duplex）的通信接口，在一个主设备和一个或多个从设备之间进行数据交换。
+SPI信号线
+MISO： 主设备输入&#x2F;从设备输出引脚。该引脚在从模式下发送数据，在主模式下接收数据。
+MOSI： 主设备输出&#x2F;从设备输入引脚。该引脚在主模式下发送数据，在从模式下接收数据。
+SCLK：串行时钟信号，由主设备产生。
+CS&#x2F;SS：从设备片选信号，由主设备控制。它的功能是用来作为“片选引脚”，也就是选择指定的从设备，让主设备可以单独地与特定从设备通讯，避免数据线上的冲突。
+
+SPI通信模式SPI通信有4种不同的操作模式，这些模式通过时钟极性（CPOL）和时钟相位（CPHA）来定义
+
+模式0（CPOL&#x3D;0，CPHA&#x3D;0）：时钟极性（CPOL）为0：时钟空闲状态为低电平。时钟相位（CPHA）为0：数据在时钟的下降沿进行采样，上升沿进行传输。数据在每个时钟周期的第一个边沿进行传输。
+模式1（CPOL&#x3D; ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/STM32%E7%AE%80%E4%BB%8B/" title="STM32概述">STM32概述</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">STM32简介STM32是ST公司基于ARM Cortex-M内核开发的32位微控制器
+应用场景STM32常应用在嵌入式领域，如智能车、无人机、机器人、无线通信、物联网、工业控制、娱乐电子产品等。
+优点STM32功能强大、性能优异、片上资源丰富、功耗低，是一款经典的嵌入式微控制器
+分类
+Cortex-M0系列：低成本低功耗，主要应用在控制简单、功耗要求高的产品中。
+Cortex-M3系列：应用广泛，性价比较高，常用于工业控制、汽车电子、医疗设备、物联网、智能家居等领域。
+Cortex-M4系列：在M3基础上增加了DSP（数字信号处理）指令和浮点运算，常用于高性能应用，如音视频处理、智能控制等。
+Cortex-M7系列：为高端应用提供更高性能和更高的集成度，常用于工业自动化、机器人控制、高清媒体处理等领域
+
+片上资源&#x2F;外设
+
+
+
+
+
+
+
+
+
+英文缩写
+名称
+英文缩写
+名称
+
+
+NVIC
+嵌套向量中断控制器
+CAN
+CAN通信
+
+
+SysTick
+系统滴答定时器
+USB
+USB通信
+
+
+RCC
+复位和时钟控制
+RTC
+实时时钟
+
+
+GPIO
+通用IO口
+CRC
+CRC校验
+
+
+A ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/USART%E5%8D%8F%E8%AE%AE/" title="USART协议">USART协议</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概念通用异步收发器 UART，是一种串行、异步、全双工的通信协议，将所需传输的数据一位接一位地传输，在UART通讯协议中信号线上的状态位高电平代表’1’，低电平代表’0’。其特点是通信线路简单，只要一对传输线就可以实现双向通信，大大降低了成本，但传送速度较慢。
+引脚
+RXD：数据输入引脚，负责数据接收。
+TXD：数据发送引脚，负责数据发送。
+
+电平标准
+TTL电平：+3.3V或+5V表示1，0V表示0
+RS232电平：-3 ~ -15V表示1，+3~+15V表示0
+RS485电平：两线压差+2 ~ +6V表示1，-2~-6V表示0（差分信号）
+
+串口参数及时序
+波特率：串口通信的速率
+起始位：标志一个数据帧的开始，固定为低电平
+数据位：数据帧的有效载荷，1为高电平，0为低电平，低位先行，位数一般有8位或9位
+校验位：​数据位末尾可以选择是否添加奇偶校验位，用于检测数据传输是否正确
+停止位：用于数据帧间隔，固定为高电平
+
+使用步骤12345678910111213141516171819202122232425262728293031323334353637383940414243444 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/01/01/%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="中断系统">中断系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="content">概念
+中断：在主程序运行过程中，出现了特定的中断触发条件（中断源），使得CPU暂停当前正在运行的程序，转而去处理中断程序，处理完成后又返回原来被暂停的位置继续运行
+中断优先级：当有多个中断源同时申请中断时，CPU会根据中断源的轻重缓急进行裁决，优先响应更加紧急的中断源
+中断嵌套：当一个中断程序正在运行时，又有新的更高优先级的中断源申请中断，CPU再次暂停当前中断程序，转而去处理新的中断程序，处理完成后依次进行返回
+
+NVIC中断优先级NVIC的中断优先级由优先级寄存器的4位（0~15）决定，这4位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级，抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断号排队。
+
+
+
+
+
+
+
+
+
+分组方式
+抢占优先级
+响应优先级
+
+
+分组0
+0位，取值为0
+4位，取值为0~15
+
+
+分组1
+1位，取值为0~1
+3位，取值为0~7
+
+
+分组2
+2位，取值为0~3
+2位，取值为0~3
+
+
+分组3
+3位，取值为0~7
+1位，取值为0~1
+
+
+分组4
+4位，取值为0~15
+0位，取值为0
+
+
+中断函数1234567 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/11/04/C++%E7%B1%BB%E5%9E%8B%E8%90%83%E5%8F%96/" title="C++类型萃取">C++类型萃取</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T06:09:15.000Z" title="发表于 2023-11-04 14:09:15">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C/">C++</a></span></div><div class="content">概述在C++中，类型萃取是一种使用模板元编程技术的方法，用于提取或查询给定类型的特征或属性。它常用于在编译时根据不同类型的特征选择不同的代码分支。
+用途有时，对于同一个函数（或者算法），他们的操作是类似的，但是对于不同的类型，会有一些细微的改变，这个时候类型萃取就能比较简单地实现这个需求。例如：在STL中要求支持迭代器的算法, 应该也要支持原生指针, 
+具体实现代码示例1234567891011121314151617181920212223242526272829303132333435363738394041424344#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;stdint.h&gt;#include &lt;iostream&gt;// 枚举类型定义typedef enum FieldType&#123;FIELDTYPE_UNDEFINED = 0,FIELDTYPE_INT8,FIELDTYPE_INT32, //为简化问题，只列举两种&#125; EFieldType;// 利用Traits编 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/3c70d746faebeb0da9077bc1af06d8a5c503ce2a.jpg@942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">大连第一辅助</div><div class="author-info__description">怀揣梦想的程序员一名</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dlprogrammmer" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">LOL恕瑞玛五排缺少ADC，欢迎加入车队</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/01/vs2022+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="vs2022+opencv环境配置">vs2022+opencv环境配置</a><time datetime="2024-02-01T13:13:00.000Z" title="发表于 2024-02-01 21:13:00">2024-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/28/PWM/" title="PWM">PWM</a><time datetime="2024-01-28T13:13:00.000Z" title="发表于 2024-01-28 21:13:00">2024-01-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/ADC/" title="ADC">ADC</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/GPIO%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" title="GPIO">GPIO</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/01/IIC%E5%8D%8F%E8%AE%AE/" title="IIC协议">IIC协议</a><time datetime="2024-01-01T13:13:00.000Z" title="发表于 2024-01-01 21:13:00">2024-01-01</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">16</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/linux/"><span class="card-category-list-name">linux</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/redis/"><span class="card-category-list-name">redis</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="card-category-list-name">嵌入式</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><span class="card-category-list-name">计算机网络</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.5em; color: #99a9bf">C++</a> <a href="/tags/C-%EF%BC%8Clinux/" style="font-size: 1.1em; color: #999">C++，linux</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/STM32/" style="font-size: 1.43em; color: #99a6b9">STM32</a> <a href="/tags/freeRtos/" style="font-size: 1.17em; color: #999c9f">freeRtos</a> <a href="/tags/linux/" style="font-size: 1.3em; color: #99a1ac">linux</a> <a href="/tags/lunux/" style="font-size: 1.1em; color: #999">lunux</a> <a href="/tags/opencv/" style="font-size: 1.1em; color: #999">opencv</a> <a href="/tags/redis/" style="font-size: 1.3em; color: #99a1ac">redis</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.37em; color: #99a4b2">多线程</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">嵌入式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.23em; color: #999ea6">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">六月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><span class="card-archive-list-count">7</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">6</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">41</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-20T14:52:43.915Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 大连第一辅助</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
